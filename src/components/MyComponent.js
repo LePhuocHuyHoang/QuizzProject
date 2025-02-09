@@ -1,5 +1,5 @@
 import React from "react";
-import UserInfor from "./UserInfor";
+import AddUserInfor from "./AddUserInfor";
 import DisplayInfor from "./DisplayInfor";
 class MyComponent extends React.Component {
   state = {
@@ -9,13 +9,27 @@ class MyComponent extends React.Component {
       { id: 3, name: "Hoàng Hùng", age: "10" },
     ],
   };
+  handleAddNewUser = (userObj) => {
+    this.setState({ listUsers: [userObj, ...this.state.listUsers] });
+  };
+  handleDeleteUser = (userId) => {
+    let listUsersClone = [...this.state.listUsers];
+    listUsersClone = listUsersClone.filter((item) => item.id !== userId);
+    this.setState({ listUsers: listUsersClone });
+  };
   render() {
     return (
-      <div>
-        <UserInfor />
-        <br /> <br />
-        <DisplayInfor listUsers={this.state.listUsers} />
-      </div>
+      <>
+        <div className="a">
+          <AddUserInfor handleAddNewUser={this.handleAddNewUser} />
+          <br /> <br />
+          <DisplayInfor
+            listUsers={this.state.listUsers}
+            handleDeleteUser={this.handleDeleteUser}
+          />
+        </div>
+        <div className="b"></div>
+      </>
     );
   }
 }
