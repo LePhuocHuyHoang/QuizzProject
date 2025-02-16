@@ -1,9 +1,10 @@
 import VideoHomePage from "../../assets/video-homepage.mp4";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = (props) => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  const account = useSelector((state) => state.user.account);
+  const naviagte = useNavigate();
 
   return (
     <div className="homepage-container">
@@ -20,7 +21,13 @@ const HomePage = (props) => {
           to Typeform.
         </div>
         <div className="homepage__button-wrapper">
-          <button>Get's started.</button>
+          {isAuthenticated === false ? (
+            <button onClick={() => naviagte("login")}>
+              Get's started. It's free
+            </button>
+          ) : (
+            <button onClick={() => naviagte("users")}>Doing Quizz Now!</button>
+          )}
         </div>
       </div>
     </div>
