@@ -82,3 +82,20 @@ video {
   bottom: 0;
   width: 100vw;
 }
+.custom-dropdown {
+  position: relative;
+
+  .dropdown-menu {
+    min-height: 30px !important;
+    padding: 5px 0 !important;
+    left: -20px !important; // Dịch chuyển menu sang trái 50px
+  }
+
+  .dropdown-item {
+    padding: 5px 10px !important;
+    font-size: 14px !important;
+    text-align: center !important; // Căn giữa nội dung
+    width: 100%; // Đảm bảo text căn giữa theo chiều rộng
+    display: block; // Giúp text căn giữa chính xác
+  }
+}
