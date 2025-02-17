@@ -1,13 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { getDataQuizz } from "../../services/apiService";
 import _ from "lodash";
 import "./DetailQizz.scss";
+import Question from "./Question";
 
 const DetailQuizz = (props) => {
   const params = useParams();
   const quizzId = params.id;
   const location = useLocation();
+  const [dataQuizz, setDataQuizz] = useState([]);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     fetchQuestions();
@@ -29,6 +32,7 @@ const DetailQuizz = (props) => {
               questionDescription = item.description;
               image = item.image;
             }
+            item.answers.isSelected = false;
             answers.push(item.answers);
           });
           return {
@@ -39,7 +43,39 @@ const DetailQuizz = (props) => {
           };
         })
         .value();
+      setDataQuizz(res);
       console.log(res);
+    }
+  };
+  const handlePrev = () => {
+    if (index - 1 < 0) {
+      return;
+    }
+    setIndex(index - 1);
+  };
+  const handleNext = () => {
+    if (dataQuizz && dataQuizz.length > index + 1) {
+      setIndex(index + 1);
+    }
+  };
+  const handleCheckbox = (answerId, questionId) => {
+    let dataQuizzClone = _.cloneDeep(dataQuizz);
+    let question = dataQuizz.find((item) => +item.questionId === +questionId);
+    if (question && question.answers) {
+      question.answers = question.answers.map((item) => {
+        if (+item.id === +answerId) {
+          item.isSelected = !item.isSelected;
+        }
+        return item;
+      });
+      console.log(question.answers);
+    }
+    let index = dataQuizzClone.findIndex(
+      (item) => +item.questionId === +questionId
+    );
+    if (index > -1) {
+      dataQuizzClone[index] = question;
+      setDataQuizz(dataQuizzClone);
     }
   };
   return (
@@ -49,20 +85,23 @@ const DetailQuizz = (props) => {
           Quizz {quizzId}: {location?.state?.quizzTitle}
         </div>
         <hr />
-        <div className="q-body">
-          <img />
-        </div>
         <div className="q-content">
-          <div className="question">Question 1: Ai đẹp trai nhất ?</div>
-          <div className="answer">
-            <div className="answer-child">Câu 1</div>
-            <div className="answer-child">Câu 1</div>
-            <div className="answer-child">Câu 1</div>
-          </div>
+          <Question
+            index={index}
+            handleCheckbox={handleCheckbox}
+            data={dataQuizz && dataQuizz.length > 0 ? dataQuizz[index] : []}
+          />
         </div>
         <div className="footer">
-          <button className="btn btn-secondary">Prev</button>
-          <button className="btn btn-primary">Next</button>
+          <button className="btn btn-secondary" onClick={() => handlePrev()}>
+            Prev
+          </button>
+          <button className="btn btn-primary" onClick={() => handleNext()}>
+            Next
+          </button>
+          <button className="btn btn-warning" onClick={() => handleNext()}>
+            Finish
+          </button>
         </div>
       </div>
       <div className="right-content">count down</div>
