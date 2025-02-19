@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { getDataQuizz, postSubmitQuizz } from "../../services/apiService";
+import { getDataQuiz, postSubmitQuiz } from "../../services/apiService";
 import _ from "lodash";
 import "./DetailQizz.scss";
 import Question from "./Question";
@@ -19,7 +19,7 @@ const DetailQuizz = (props) => {
     fetchQuestions();
   }, [quizzId]);
   const fetchQuestions = async () => {
-    let data = await getDataQuizz(quizzId);
+    let data = await getDataQuiz(quizzId);
     if (data && data.EC === 0) {
       let raw = data.DT;
       let res = _.chain(raw)
@@ -94,7 +94,7 @@ const DetailQuizz = (props) => {
         answers.push({ questionId: +questionId, userAnswerId: userAnswerId });
       });
       payload.answers = answers;
-      let res = await postSubmitQuizz(payload);
+      let res = await postSubmitQuiz(payload);
       console.log("check res", res);
       if (res && res.EC === 0) {
         setDataModalResult({

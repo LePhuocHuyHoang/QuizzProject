@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getQuizzByUser } from "../../services/apiService";
+import { getQuizByUser } from "../../services/apiService";
 import "./ListQuizz.scss";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ const ListQuizz = (props) => {
     getQuizzData();
   }, []);
   const getQuizzData = async () => {
-    const data = await getQuizzByUser();
+    const data = await getQuizByUser();
     if (data && data.EC === 0) {
       setArrQuizz(data.DT);
       console.log(data);

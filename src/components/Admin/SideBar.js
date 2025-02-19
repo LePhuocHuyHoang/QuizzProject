@@ -57,22 +57,13 @@ const SideBar = (props) => {
 
         <SidebarContent>
           <Menu iconShape="circle">
-            <MenuItem
-              icon={<FaTachometerAlt />}
-              // suffix={<span className="badge red">New</span>}
-            >
+            <MenuItem icon={<FaTachometerAlt />}>
               Dashboard
               <Link to="/admin" />
             </MenuItem>
-            {/* <MenuItem icon={<FaGem />}> components </MenuItem> */}
           </Menu>
           <Menu iconShape="circle">
-            <SubMenu
-              // suffix={<span className="badge yellow">3</span>}
-              // icon={<FaRegLaughWink />}
-              icon={<FaGem />}
-              title="Feature"
-            >
+            <SubMenu icon={<FaGem />} title="Feature">
               <MenuItem>
                 {" "}
                 Users Management
@@ -82,7 +73,10 @@ const SideBar = (props) => {
                 {" "}
                 Quiz Management <Link to="/admin/manage-quizzes" />
               </MenuItem>
-              <MenuItem> Question Management</MenuItem>
+              <MenuItem>
+                {" "}
+                Question Management <Link to="/admin/manage-questions" />
+              </MenuItem>
             </SubMenu>
           </Menu>
         </SidebarContent>
