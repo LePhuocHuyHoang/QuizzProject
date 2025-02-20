@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "react-select";
 import "./Question.scss";
 import { AiFillPlusCircle } from "react-icons/ai";
@@ -8,14 +8,17 @@ import { FaMinus } from "react-icons/fa";
 import { RiImageAddFill } from "react-icons/ri";
 import { v4 as uuidv4 } from "uuid";
 import _, { find } from "lodash";
+import Lightbox from "react-awesome-lightbox";
+import { getAllQuizForAdmin } from "../../../../services/apiService";
 
 const Questions = (props) => {
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
   const [selectedQuiz, setSelectedQuiz] = useState({});
+  const [isPreviewImage, setIsPreviewImage] = useState(false);
+  const [listQuiz, setListQuiz] = useState([]);
+  const [dataImagePreview, setDataImagePreview] = useState({
+    title: "",
+    url: "",
+  });
   const [questions, setQuestions] = useState([
     {
       id: uuidv4(),
@@ -63,7 +66,6 @@ const Questions = (props) => {
     }
     console.log("question", questions);
   };
-
   const handleOnChange = (type, questionId, value) => {
     if (type === "QUESTION") {
       let questionClone = _.cloneDeep(questions);
@@ -109,8 +111,32 @@ const Questions = (props) => {
     }
   };
   const handleSubmitQuestionForQuiz = () => {
-    console.log("question", questions);
+    console.log("question", questions, selectedQuiz);
   };
+  const setPreviewImage = (questionId) => {
+    let questionClone = _.cloneDeep(questions);
+    let index = questionClone.findIndex((item) => item.id === questionId);
+    if (index > -1) {
+      setDataImagePreview({
+        url: URL.createObjectURL(questionClone[index].imageFile),
+        title: questionClone[index].imageName,
+      });
+    }
+    setIsPreviewImage(true);
+  };
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+  const fetchQuiz = async () => {
+    let res = await getAllQuizForAdmin();
+    if (res && res.EC === 0) {
+      let newQuiz = res.DT.map((item) => {
+        return { value: item.id, label: `${item.id}-${item.description}` };
+      });
+      setListQuiz(newQuiz);
+    }
+  };
+  console.log("listQuiz", listQuiz);
   return (
     <div className="questions-container">
       <div className="title"> Manage Questions</div>
@@ -121,7 +147,9 @@ const Questions = (props) => {
           <Select
             defaultValue={selectedQuiz}
             onChange={setSelectedQuiz}
-            options={options}
+            options={listQuiz}
+            menuPortalTarget={document.body}
+            styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
           />
         </div>
         <div className="mt-3 mb-2">Add questions: </div>
@@ -160,9 +188,16 @@ const Questions = (props) => {
                       }
                     />
                     <span>
-                      {question.imageName
-                        ? question.imageName
-                        : "0 file is uploaded"}
+                      {question.imageName ? (
+                        <span
+                          style={{ cursor: "pointer" }}
+                          onClick={() => setPreviewImage(question.id)}
+                        >
+                          {question.imageName}
+                        </span>
+                      ) : (
+                        "0 file is uploaded"
+                      )}
                     </span>
                   </div>
                   <div className="btn-add">
@@ -252,6 +287,13 @@ const Questions = (props) => {
               Save Questions
             </button>
           </div>
+        )}
+        {isPreviewImage === true && (
+          <Lightbox
+            image={dataImagePreview.url}
+            title={dataImagePreview.title}
+            onClose={() => setIsPreviewImage(false)}
+          ></Lightbox>
         )}
       </div>
     </div>
