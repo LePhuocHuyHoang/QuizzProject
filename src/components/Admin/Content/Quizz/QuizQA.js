@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Select from "react-select";
-import "./Question.scss";
+import "./QuizQA.scss";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { FaPlus } from "react-icons/fa";
 import { FaMinusCircle } from "react-icons/fa";
@@ -16,7 +16,7 @@ import {
   postCreateNewAnswerForQuestion,
 } from "../../../../services/apiService";
 
-const Questions = (props) => {
+const QuizQA = (props) => {
   const initQuestion = [
     {
       id: uuidv4(),
@@ -205,8 +205,6 @@ const Questions = (props) => {
   console.log("listQuiz", listQuiz);
   return (
     <div className="questions-container">
-      <div className="title"> Manage Questions</div>
-      <hr />
       <div className="add-new-question">
         <div className="col-6 from-group">
           <label className="mb-2">Select Quiz: </label>
@@ -366,4 +364,4 @@ const Questions = (props) => {
   );
 };
 
-export default Questions;
+export default QuizQA;
