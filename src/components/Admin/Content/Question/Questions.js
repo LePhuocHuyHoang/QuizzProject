@@ -170,12 +170,13 @@ const Questions = (props) => {
       //Submit Answer
       for (const answer of question.answers) {
         await postCreateNewAnswerForQuestion(
+          q.DT.id,
           answer.description,
-          answer.isCorrect,
-          q.DT.id
+          answer.isCorrect
         );
       }
     }
+
     toast.success("Create questions and answers success!");
     setQuestions(initQuestion);
   };

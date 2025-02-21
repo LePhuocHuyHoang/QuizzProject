@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import Header from "./components/Header/Header";
 import { Link, Outlet } from "react-router-dom";
+import PerfectScrollbar from "react-perfect-scrollbar";
 
 const App = () => {
   return (
@@ -14,7 +15,9 @@ const App = () => {
       <div className="main-container">
         <div className="sidenav-container"></div>
         <div className="app-content">
-          <Outlet />
+          <PerfectScrollbar>
+            <Outlet />
+          </PerfectScrollbar>
         </div>
       </div>
     </div>
