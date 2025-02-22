@@ -17,6 +17,12 @@ body {
     max-width: 1400px !important;
   }
 }
+.languages {
+  .dropdown-toggle::after {
+    display: none !important;
+  }
+}
+
 .app-container {
   .header-container {
     .btn-login {

@@ -1,10 +1,12 @@
 import VideoHomePage from "../../assets/video-homepage.mp4";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation, Trans } from "react-i18next";
 
 const HomePage = (props) => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const naviagte = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="homepage-container">
@@ -12,21 +14,17 @@ const HomePage = (props) => {
         <source src={VideoHomePage} type="video/mp4" />
       </video>
       <div className="homepage-content">
-        <div className="homepage-title">
-          “We need to know that we're building the right things for real
-          problems.”
-        </div>
-        <div className="homepage__description">
-          Chase Clark, Senior UX Researcher at Calm, explains why they switched
-          to Typeform.
-        </div>
+        <div className="homepage-title">{t("homepage.title1")}</div>
+        <div className="homepage__description">{t("homepage.title2")}</div>
         <div className="homepage__button-wrapper">
           {isAuthenticated === false ? (
             <button onClick={() => naviagte("login")}>
-              Get's started. It's free
+              {t("homepage.title3.login")}
             </button>
           ) : (
-            <button onClick={() => naviagte("users")}>Doing Quizz Now!</button>
+            <button onClick={() => naviagte("users")}>
+              {t("homepage.title3.users")}
+            </button>
           )}
         </div>
       </div>
