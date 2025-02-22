@@ -47,6 +47,11 @@ const Login = (props) => {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
+  const handleKeyDown = (event) => {
+    if (event && event.key === "Enter") {
+      handleLogin();
+    }
+  };
   return (
     <div className="login-container">
       <div className="header">
@@ -74,6 +79,7 @@ const Login = (props) => {
             className="form-control"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+            onKeyDown={(event) => handleKeyDown(event)}
           />
           {isShowPassword ? (
             <span
