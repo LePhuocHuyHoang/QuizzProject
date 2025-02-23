@@ -7,8 +7,10 @@ import {
   postAssignQuiz,
 } from "../../../../services/apiService";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const AssignQuiz = (props) => {
+  const { t } = useTranslation();
   const [listQuiz, setListQuiz] = useState([]);
   const [selectedQuiz, setSelectedQuiz] = useState({});
   const [listUser, setListUser] = useState([]);
@@ -49,7 +51,7 @@ const AssignQuiz = (props) => {
   return (
     <div className="assign-quiz-container row">
       <div className="col-6 from-group">
-        <label className="mb-2">Select Quiz: </label>
+        <label className="mb-2">{t("quiz.select-quiz")} </label>
         <Select
           defaultValue={selectedQuiz}
           onChange={setSelectedQuiz}
@@ -59,7 +61,7 @@ const AssignQuiz = (props) => {
         />
       </div>
       <div className="col-6 from-group">
-        <label className="mb-2">Select User: </label>
+        <label className="mb-2">{t("quiz.select-user")} </label>
         <Select
           defaultValue={selectedUser}
           onChange={setSelectedUser}
@@ -70,7 +72,7 @@ const AssignQuiz = (props) => {
       </div>
       <div>
         <button className="btn btn-warning mt-3" onClick={() => handleAssign()}>
-          Assign
+          {t("quiz.assign")}
         </button>
       </div>
     </div>

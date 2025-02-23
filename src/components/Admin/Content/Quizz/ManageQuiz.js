@@ -8,6 +8,8 @@ import TableQuiz from "./TableQuiz";
 import { Accordion } from "react-bootstrap";
 import QuizQA from "./QuizQA";
 import AssignQuiz from "./AssignQuiz";
+import { useTranslation } from "react-i18next";
+import { FcPlus } from "react-icons/fc";
 
 const options = [
   { value: "EASY", label: "EASY" },
@@ -16,6 +18,7 @@ const options = [
 ];
 
 const ManageQuiz = () => {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState(options[0]);
@@ -48,13 +51,13 @@ const ManageQuiz = () => {
       <Accordion defaultActiveKey="0">
         <Accordion.Item eventKey="0">
           <Accordion.Header>
-            <div className="title">Manage Quizzes</div>
+            <div className="title">{t("quiz.manageQuizzes")}</div>
           </Accordion.Header>
           <Accordion.Body>
             <div className="add-new">
               <fieldset className="border rounded-3 p-3">
                 <legend className="float-none w-auto px-3">
-                  Add New Quiz:
+                  {t("quiz.addNewQuiz")}
                 </legend>
                 <div className="form-floating mb-3">
                   <input
@@ -64,7 +67,7 @@ const ManageQuiz = () => {
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                   />
-                  <label>Name</label>
+                  <label>{t("quiz.quizName")}</label>
                 </div>
                 <div className="form-floating">
                   <input
@@ -74,7 +77,7 @@ const ManageQuiz = () => {
                     value={description}
                     onChange={(event) => setDescription(event.target.value)}
                   />
-                  <label>Description</label>
+                  <label>{t("quiz.description")}</label>
                 </div>
                 <div className="my-3">
                   <Select
@@ -86,19 +89,29 @@ const ManageQuiz = () => {
                   />
                 </div>
                 <div className="more-actions form-group">
-                  <label className="mb-1">Upload Image</label>
+                  <label className="label-upload" htmlFor="quizImageUpload">
+                    <FcPlus /> {t("quiz.uploadImage")}
+                  </label>
                   <input
                     type="file"
-                    className="form-control"
-                    onChange={(event) => handleChangeFile(event)}
+                    id="quizImageUpload"
+                    hidden
+                    onChange={handleChangeFile}
                   />
+                </div>
+                <div className="img-preview">
+                  {image ? (
+                    <img src={URL.createObjectURL(image)} alt="Preview" />
+                  ) : (
+                    <span>{t("quiz.previewImage")}</span>
+                  )}
                 </div>
                 <div className="mt-3">
                   <button
                     className="btn btn-warning"
                     onClick={() => handleSubmitQuiz()}
                   >
-                    Save
+                    {t("quiz.save")}
                   </button>
                 </div>
               </fieldset>
@@ -110,7 +123,7 @@ const ManageQuiz = () => {
         </Accordion.Item>
         <Accordion.Item eventKey="1">
           <Accordion.Header>
-            <div className="title">Update Q/A Quizzes</div>
+            <div className="title">{t("quiz.updateQA")}</div>
           </Accordion.Header>
           <Accordion.Body>
             <QuizQA />
@@ -118,7 +131,7 @@ const ManageQuiz = () => {
         </Accordion.Item>
         <Accordion.Item eventKey="2">
           <Accordion.Header>
-            <div className="title">Assign To Users</div>
+            <div className="title">{t("quiz.assignUsers")}</div>
           </Accordion.Header>
           <Accordion.Body>
             <AssignQuiz />

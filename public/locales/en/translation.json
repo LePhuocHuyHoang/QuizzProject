@@ -4,7 +4,141 @@
     "title2": "Chase Clark, Senior UX Researcher at Calm, explains why they switched to Typeform.",
     "title3": {
       "login": "Get's started. It's free",
-      "users": "Doing Quizz Now!"
+      "users": "Doing Quiz Now!"
     }
+  },
+  "header": {
+    "home": "Home",
+    "users": "User",
+    "admin": "Admin",
+    "login": "Login",
+    "signup": "Sign Up",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Log out"
+  },
+  "login": {
+    "noAccount": "Don't have an account yet?",
+    "signUp": "Sign Up",
+    "welcome": "Get better data with conversational forms, surveys, quizzes & more.",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "loginButton": "Login",
+    "goHome": "Go To HomePage"
+  },
+  "register": {
+    "haveAccount": "Already have an account?",
+    "login": "Login",
+    "welcome": "Get better data with conversational forms, surveys, quizzes & more.",
+    "email": "Email (*)",
+    "password": "Password (*)",
+    "username": "Username",
+    "registerButton": "Register",
+    "goHome": "Go To HomePage"
+  },
+  "listQuizz": {
+    "quizTitle": "Quiz {{index}}",
+    "startNow": "Start Now",
+    "noQuizz": "You don't have any quiz now..."
+  },
+  "quiz": {
+    "title": "Quiz {{id}}",
+    "prev": "Previous",
+    "next": "Next",
+    "finish": "Finish",
+    "errorMessage": "Something went wrong...",
+    "manageQuizzes": "Manage Quizzes",
+    "addNewQuiz": "Add New Quiz",
+    "quizName": "Quiz Name",
+    "description": "Description",
+    "selectType": "Select Quiz Type...",
+    "uploadImage": "Upload Image",
+    "updateQA": "Update Q/A Quizzes",
+    "assignUsers": "Assign To Users",
+    "listTitle": "List of Quizzes",
+    "name": "Name",
+    "type": "Type",
+    "actions": "Actions",
+    "edit": "Edit",
+    "updateTitle": "Update Quiz",
+    "difficulty": "Difficulty",
+    "noImage": "No Image Available",
+    "close": "Close",
+    "save": "Save",
+    "confirmDelete": "Confirm Delete Quiz",
+    "confirmDeleteMessage": "Are you sure you want to delete this quiz",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "select-quiz": "Select Quiz:",
+    "add-question": "Add questions: ",
+    "question": "Question",
+    "image": "0 file is uploaded",
+    "answer": "Answer",
+    "save-question": "Save questions",
+    "select-user": "Select-User:",
+    "assign": "Assign",
+    "previewImage": "Preview Image"
+  },
+  "admin": {
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Log out"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "features": "Features",
+    "users": "Users Management",
+    "quizzes": "Quiz Management",
+    "questions": "Question Management",
+    "profile": "My Profile"
+  },
+  "dashboard": {
+    "title": "Analytics Dashboard",
+    "users": "Total Users",
+    "quizzes": "Total Quizzes",
+    "questions": "Total Questions",
+    "answers": "Total Answers"
+  },
+  "manageUser": {
+    "title": "Manage Users",
+    "addNew": "Add New User"
+  },
+  "table": {
+    "username": "Username",
+    "role": "Role",
+    "action": "Action",
+    "view": "View",
+    "update": "Update",
+    "delete": "Delete",
+    "noData": "No users found",
+    "loading": "Loading data..."
+  },
+  "pagination": {
+    "next": "Next >",
+    "prev": "< Prev"
+  },
+  "modal": {
+    "addUser": "Add New User",
+    "updateUser": "Update User",
+    "email": "Email",
+    "enterEmail": "Enter email",
+    "password": "Password",
+    "enterPassword": "Enter password",
+    "username": "Username",
+    "enterUsername": "Enter username",
+    "role": "Role",
+    "uploadImage": "Upload Image",
+    "previewImage": "Preview Image",
+    "close": "Close",
+    "save": "Save",
+    "invalidEmail": "Invalid email format",
+    "invalidPassword": "Password cannot be empty",
+    "invalidImage": "Invalid image format! Please upload JPEG, PNG, or JPG.",
+    "confirmDelete": "Confirm Delete User",
+    "confirmDeleteMessage": "Are you sure you want to delete this user with email:",
+    "invalidUser": "Invalid user data!",
+    "cancel": "Cancel",
+    "delete": "Delete"
   }
 }

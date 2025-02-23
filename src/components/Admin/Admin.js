@@ -6,9 +6,12 @@ import { Outlet } from "react-router-dom";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import Language from "../Header/Language";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { useTranslation } from "react-i18next";
 
-const Admin = (props) => {
+const Admin = () => {
+  const { t } = useTranslation();
   const [collapsed, setCollapsed] = useState(false);
+
   return (
     <div className="admin-container">
       <div className="admin-sidebar">
@@ -17,21 +20,21 @@ const Admin = (props) => {
       <div className="admin-content">
         <div className="admin-header">
           <span onClick={() => setCollapsed(!collapsed)}>
-            {" "}
             <FaBars className="left-side" />
           </span>
           <div className="right-side">
-            {" "}
+            <div style={{ marginRight: "10px" }}>
+              <Language />
+            </div>
             <NavDropdown
-              title="Settings"
+              title={t("admin.settings")}
               id="basic-nav-dropdown"
               className="custom-dropdown"
             >
-              <NavDropdown.Item>Profile</NavDropdown.Item>
+              <NavDropdown.Item>{t("admin.profile")}</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item>Log out</NavDropdown.Item>
+              <NavDropdown.Item>{t("admin.logout")}</NavDropdown.Item>
             </NavDropdown>
-            <Language />
           </div>
         </div>
 
@@ -44,4 +47,5 @@ const Admin = (props) => {
     </div>
   );
 };
+
 export default Admin;

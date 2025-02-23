@@ -7,8 +7,10 @@ import { getAllUsers, getUserWithPaginate } from "../../../services/apiService";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalViewUser from "./ModalViewUser";
 import ModalDeleteUser from "./ModalDeleteUser";
+import { useTranslation } from "react-i18next";
 
 const ManageUser = (props) => {
+  const { t } = useTranslation();
   const LIMIT_USERS = 5;
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
@@ -57,7 +59,7 @@ const ManageUser = (props) => {
   };
   return (
     <div className="manage-user-container">
-      <div className="title">Manage User</div>
+      <div className="title">{t("manageUser.title")}</div>
       <div className="users-content">
         <div className="btn-add-new">
           <button
@@ -66,7 +68,7 @@ const ManageUser = (props) => {
           >
             <span className="icon-add">
               <FcPlus />
-              Add New User
+              {t("manageUser.addNew")}
             </span>
           </button>
         </div>

@@ -11,8 +11,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const DashBoard = (props) => {
+  const { t } = useTranslation();
   const [dataOverView, setDataOverView] = useState([]);
   const [dataChart, setDataChart] = useState([]);
   useEffect(() => {
@@ -49,11 +51,11 @@ const DashBoard = (props) => {
 
   return (
     <div className="dashboard-container">
-      <div className="title">Analytics DashBoard</div>
+      <div className="title">{t("dashboard.title")}</div>
       <div className="content">
         <div className="content-left">
           <div className="child">
-            <span className="text-1">Total Users</span>
+            <span className="text-1">{t("dashboard.users")}</span>
             <span className="text-2">
               {dataOverView &&
               dataOverView.users &&
@@ -65,7 +67,7 @@ const DashBoard = (props) => {
             </span>
           </div>
           <div className="child">
-            <span className="text-1">Total Quizzes</span>
+            <span className="text-1">{t("dashboard.quizzes")}</span>
             <span className="text-2">
               {dataOverView &&
               dataOverView.others &&
@@ -77,7 +79,7 @@ const DashBoard = (props) => {
             </span>
           </div>
           <div className="child">
-            <span className="text-1">Total Questions</span>
+            <span className="text-1">{t("dashboard.questions")}</span>
             <span className="text-2">
               {dataOverView &&
               dataOverView.others &&
@@ -89,7 +91,7 @@ const DashBoard = (props) => {
             </span>
           </div>
           <div className="child">
-            <span className="text-1">Total Answers</span>
+            <span className="text-1">{t("dashboard.answers")}</span>
             <span className="text-2">
               {dataOverView &&
               dataOverView.others &&

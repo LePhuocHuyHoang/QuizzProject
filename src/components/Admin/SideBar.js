@@ -8,108 +8,85 @@ import {
   SidebarFooter,
   SidebarContent,
 } from "react-pro-sidebar";
-
-import {
-  FaTachometerAlt,
-  FaGem,
-  FaList,
-  FaGithub,
-  FaRegLaughWink,
-  FaHeart,
-} from "react-icons/fa";
-import sidebarBg from "../../assets/bg2.jpg";
+import { FaTachometerAlt, FaGem, FaGithub } from "react-icons/fa";
 import { DiReact } from "react-icons/di";
-import { MdDashboard } from "react-icons/md";
+import sidebarBg from "../../assets/bg2.jpg";
 import "./SideBar.scss";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const SideBar = (props) => {
+const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const { image, collapsed, toggled, handleToggleSidebar } = props;
+
   return (
-    <>
-      <ProSidebar
-        image={sidebarBg}
-        collapsed={collapsed}
-        toggled={toggled}
-        breakPoint="md"
-        onToggle={handleToggleSidebar}
-      >
-        <SidebarHeader>
-          <div
-            style={{
-              padding: "24px",
-              textTransform: "uppercase",
-              fontWeight: "bold",
-              fontSize: 14,
-              letterSpacing: "1px",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <DiReact size={"3rem"} color={"00bfff"} />
-            <span onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
-              Quiz
-            </span>
-          </div>
-        </SidebarHeader>
+    <ProSidebar
+      image={sidebarBg}
+      collapsed={collapsed}
+      toggled={toggled}
+      breakPoint="md"
+      onToggle={handleToggleSidebar}
+    >
+      <SidebarHeader>
+        <div
+          style={{
+            padding: "24px",
+            textTransform: "uppercase",
+            fontWeight: "bold",
+            fontSize: 14,
+            letterSpacing: "1px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            textAlign: "center",
+          }}
+        >
+          <span onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
+            AQuiz
+          </span>
+        </div>
+      </SidebarHeader>
 
-        <SidebarContent>
-          <Menu iconShape="circle">
-            <MenuItem icon={<FaTachometerAlt />}>
-              Dashboard
-              <Link to="/admin" />
+      <SidebarContent>
+        <Menu iconShape="circle">
+          <MenuItem icon={<FaTachometerAlt />}>
+            {t("sidebar.dashboard")}
+            <Link to="/admin" />
+          </MenuItem>
+        </Menu>
+        <Menu iconShape="circle">
+          <SubMenu icon={<FaGem />} title={t("sidebar.features")}>
+            <MenuItem>
+              {t("sidebar.users")}
+              <Link to="/admin/manage-users" />
             </MenuItem>
-          </Menu>
-          <Menu iconShape="circle">
-            <SubMenu icon={<FaGem />} title="Feature">
-              <MenuItem>
-                {" "}
-                Users Management
-                <Link to="/admin/manage-users" />
-              </MenuItem>
-              <MenuItem>
-                {" "}
-                Quiz Management <Link to="/admin/manage-quizzes" />
-              </MenuItem>
-              <MenuItem>
-                {" "}
-                Question Management <Link to="/admin/manage-questions" />
-              </MenuItem>
-            </SubMenu>
-          </Menu>
-        </SidebarContent>
+            <MenuItem>
+              {t("sidebar.quizzes")}
+              <Link to="/admin/manage-quizzes" />
+            </MenuItem>
+            <MenuItem>
+              {t("sidebar.questions")}
+              <Link to="/admin/manage-questions" />
+            </MenuItem>
+          </SubMenu>
+        </Menu>
+      </SidebarContent>
 
-        <SidebarFooter style={{ textAlign: "center" }}>
-          <div
-            className="sidebar-btn-wrapper"
-            style={{
-              padding: "20px 24px",
-            }}
+      <SidebarFooter style={{ textAlign: "center" }}>
+        <div className="sidebar-btn-wrapper" style={{ padding: "20px 24px" }}>
+          <a
+            href="https://github.com/LePhuocHuyHoang"
+            target="_blank"
+            className="sidebar-btn"
+            rel="noopener noreferrer"
           >
-            <a
-              href="https://github.com/LePhuocHuyHoang"
-              target="_blank"
-              className="sidebar-btn"
-              rel="noopener noreferrer"
-            >
-              <FaGithub />
-              <span
-                style={{
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                }}
-              >
-                MyProfile
-              </span>
-            </a>
-          </div>
-        </SidebarFooter>
-      </ProSidebar>
-      ;
-    </>
+            <FaGithub />
+            <span>{t("sidebar.profile")}</span>
+          </a>
+        </div>
+      </SidebarFooter>
+    </ProSidebar>
   );
 };
+
 export default SideBar;

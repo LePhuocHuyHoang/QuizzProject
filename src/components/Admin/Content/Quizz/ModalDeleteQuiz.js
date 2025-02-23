@@ -3,8 +3,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { deleteQuiz } from "../../../../services/apiService";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const ModalDeleteQuiz = (props) => {
+  const { t } = useTranslation();
   const { show, setShow, dataDelete } = props;
 
   const handleClose = () => setShow(false);
@@ -27,17 +29,17 @@ const ModalDeleteQuiz = (props) => {
   return (
     <Modal show={show} onHide={handleClose} backdrop="static">
       <Modal.Header closeButton>
-        <Modal.Title>Confirm Delete This Quiz?</Modal.Title>
+        <Modal.Title>{t("quiz.confirmDelete")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        Are you sure you want to delete this quiz: <b>{dataDelete?.name}</b>?
+        {t("quiz.confirmDeleteMessage")}: <b>{dataDelete?.name}</b>?
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Cancel
+          {t("quiz.cancel")}
         </Button>
         <Button variant="danger" onClick={handleSubmitDeleteQuiz}>
-          Delete
+          {t("quiz.delete")}
         </Button>
       </Modal.Footer>
     </Modal>

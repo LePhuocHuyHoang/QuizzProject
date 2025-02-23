@@ -6,8 +6,11 @@ import "./DetailQizz.scss";
 import Question from "./Question";
 import ModalResult from "./ModalResult";
 import RightContent from "./Content/RightContent";
+import { useTranslation } from "react-i18next";
+import Header from "../../components/Header/Header";
 
-const DetailQuizz = (props) => {
+const DetailQuizz = () => {
+  const { t } = useTranslation();
   const params = useParams();
   const quizzId = params.id;
   const location = useLocation();
@@ -19,14 +22,13 @@ const DetailQuizz = (props) => {
   useEffect(() => {
     fetchQuestions();
   }, [quizzId]);
+
   const fetchQuestions = async () => {
     let data = await getDataQuiz(quizzId);
     if (data && data.EC === 0) {
       let raw = data.DT;
       let res = _.chain(raw)
-        // Group the elements of Array based on `color` property
         .groupBy("id")
-        // `key` is group's name (color), `value` is the array of objects
         .map((value, key) => {
           let answers = [];
           let questionDescription,
@@ -51,17 +53,19 @@ const DetailQuizz = (props) => {
       setDataQuizz(res);
     }
   };
+
   const handlePrev = () => {
-    if (index - 1 < 0) {
-      return;
+    if (index - 1 >= 0) {
+      setIndex(index - 1);
     }
-    setIndex(index - 1);
   };
+
   const handleNext = () => {
-    if (dataQuizz && dataQuizz.length > index + 1) {
+    if (dataQuizz.length > index + 1) {
       setIndex(index + 1);
     }
   };
+
   const handleCheckbox = (answerId, questionId) => {
     let dataQuizzClone = _.cloneDeep(dataQuizz);
     let question = dataQuizz.find((item) => +item.questionId === +questionId);
@@ -81,23 +85,26 @@ const DetailQuizz = (props) => {
       setDataQuizz(dataQuizzClone);
     }
   };
-  const handleFinishQUizz = async () => {
+
+  const handleFinishQuizz = async () => {
     let payload = { quizId: +quizzId, answers: [] };
     let answers = [];
-    if (dataQuizz && dataQuizz.length > 0) {
+
+    if (dataQuizz.length > 0) {
       dataQuizz.forEach((question) => {
         let questionId = +question.questionId;
         let userAnswerId = [];
         question.answers.forEach((a) => {
-          if (a.isSelected === true) {
+          if (a.isSelected) {
             userAnswerId.push(+a.id);
           }
         });
-        answers.push({ questionId: +questionId, userAnswerId: userAnswerId });
+        answers.push({ questionId, userAnswerId });
       });
+
       payload.answers = answers;
       let res = await postSubmitQuiz(payload);
-      console.log("check res", res);
+
       if (res && res.EC === 0) {
         setDataModalResult({
           countCorrect: res.DT.countCorrect,
@@ -106,52 +113,56 @@ const DetailQuizz = (props) => {
         });
         setIsShowModalResult(true);
       } else {
-        alert("Something wrongs...");
+        alert(t("quiz.errorMessage"));
       }
     }
   };
+
   return (
-    <div className="detail-quizz-container">
-      <div className="left-content">
-        <div className="title">
-          Quizz {quizzId}: {location?.state?.quizzTitle}
+    <>
+      <div style={{ marginTop: "15px" }}>
+        <Header />
+      </div>
+      <div className="detail-quizz-container">
+        <div className="left-content">
+          <div className="title">
+            {t("quiz.title", { id: quizzId })}: {location?.state?.quizzTitle}
+          </div>
+          <hr />
+          <div className="q-content">
+            <Question
+              index={index}
+              handleCheckbox={handleCheckbox}
+              data={dataQuizz.length > 0 ? dataQuizz[index] : []}
+            />
+          </div>
+          <div className="footer">
+            <button className="btn btn-secondary" onClick={handlePrev}>
+              {t("quiz.prev")}
+            </button>
+            <button className="btn btn-primary" onClick={handleNext}>
+              {t("quiz.next")}
+            </button>
+            <button className="btn btn-warning" onClick={handleFinishQuizz}>
+              {t("quiz.finish")}
+            </button>
+          </div>
         </div>
-        <hr />
-        <div className="q-content">
-          <Question
-            index={index}
-            handleCheckbox={handleCheckbox}
-            data={dataQuizz && dataQuizz.length > 0 ? dataQuizz[index] : []}
+        <div className="right-content">
+          <RightContent
+            dataQuizz={dataQuizz}
+            handleFinishQuizz={handleFinishQuizz}
+            setIndex={setIndex}
           />
         </div>
-        <div className="footer">
-          <button className="btn btn-secondary" onClick={() => handlePrev()}>
-            Prev
-          </button>
-          <button className="btn btn-primary" onClick={() => handleNext()}>
-            Next
-          </button>
-          <button
-            className="btn btn-warning"
-            onClick={() => handleFinishQUizz()}
-          >
-            Finish
-          </button>
-        </div>
-      </div>
-      <div className="right-content">
-        <RightContent
-          dataQuizz={dataQuizz}
-          handleFinishQUizz={handleFinishQUizz}
-          setIndex={setIndex}
+        <ModalResult
+          show={isShowModalResult}
+          setShow={setIsShowModalResult}
+          dataModalResult={dataModalResult}
         />
       </div>
-      <ModalResult
-        show={isShowModalResult}
-        setShow={setIsShowModalResult}
-        dataModalResult={dataModalResult}
-      />
-    </div>
+    </>
   );
 };
+
 export default DetailQuizz;

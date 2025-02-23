@@ -4,7 +4,141 @@
     "title2": "Chase Clark, Nhà nghiên cứu UX cao cấp tại Calm, giải thích lý do tại sao họ chuyển sang Typeform.",
     "title3": {
       "login": "Hãy bắt đầu. Nó miễn phí",
-      "users": "Làm Quizz ngay bây giờ!"
+      "users": "Làm Quiz ngay bây giờ!"
     }
+  },
+  "header": {
+    "home": "Trang chủ",
+    "users": "Người dùng",
+    "admin": "Quản trị viên",
+    "login": "Đăng nhập",
+    "signup": "Đăng ký",
+    "settings": "Cài đặt",
+    "profile": "Hồ sơ",
+    "logout": "Đăng xuất"
+  },
+  "login": {
+    "noAccount": "Bạn chưa có tài khoản?",
+    "signUp": "Đăng ký",
+    "welcome": "Thu thập dữ liệu tốt hơn với các biểu mẫu hội thoại, khảo sát, câu đố và hơn thế nữa.",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "loginButton": "Đăng nhập",
+    "goHome": "Quay về trang chủ"
+  },
+  "register": {
+    "haveAccount": "Bạn đã có tài khoản?",
+    "login": "Đăng nhập",
+    "welcome": "Thu thập dữ liệu tốt hơn với các biểu mẫu hội thoại, khảo sát, câu đố và hơn thế nữa.",
+    "email": "Email (*)",
+    "password": "Mật khẩu (*)",
+    "username": "Tên người dùng",
+    "registerButton": "Đăng ký",
+    "goHome": "Quay về trang chủ"
+  },
+  "listQuizz": {
+    "quizTitle": "Bài kiểm tra {{index}}",
+    "startNow": "Bắt đầu ngay",
+    "noQuizz": "Bạn chưa có bài kiểm tra nào..."
+  },
+  "quiz": {
+    "title": "Bài kiểm tra {{id}}",
+    "prev": "Quay lại",
+    "next": "Tiếp theo",
+    "finish": "Hoàn thành",
+    "errorMessage": "Đã có lỗi xảy ra...",
+    "manageQuizzes": "Quản lý bài kiểm tra",
+    "addNewQuiz": "Thêm bài kiểm tra mới",
+    "quizName": "Tên bài kiểm tra",
+    "description": "Mô tả",
+    "selectType": "Chọn loại bài kiểm tra...",
+    "uploadImage": "Tải lên hình ảnh",
+    "save": "Lưu",
+    "updateQA": "Cập nhật Q/A bài kiểm tra",
+    "assignUsers": "Gán cho người dùng",
+    "listTitle": "Danh sách bài kiểm tra",
+    "name": "Tên",
+    "type": "Loại",
+    "actions": "Hành động",
+    "edit": "Chỉnh sửa",
+    "updateTitle": "Cập nhật bài kiểm tra",
+    "difficulty": "Mức độ khó",
+    "noImage": "Không có hình ảnh",
+    "close": "Đóng",
+    "confirmDelete": "Xác nhận xóa bài kiểm tra",
+    "confirmDeleteMessage": "Bạn có chắc muốn xóa bài kiểm tra này",
+    "cancel": "Hủy",
+    "delete": "xóa",
+    "select-quiz": "Chọn bài kiểm tra: ",
+    "add-question": "Thêm câu hỏi: ",
+    "question": "Câu hỏi",
+    "image": "0 có ảnh nào được chọn",
+    "answer": "Câu trả lời",
+    "save-question": "Lưu câu hỏi",
+    "select-user": "Chọn người dùng:",
+    "assign": "Gán",
+    "previewImage": "Xem trước ảnh"
+  },
+  "admin": {
+    "settings": "Cài đặt",
+    "profile": "Hồ sơ",
+    "logout": "Đăng xuất"
+  },
+  "sidebar": {
+    "dashboard": "Tổng quan",
+    "features": "Chức năng",
+    "users": "Quản lý người dùng",
+    "quizzes": "Quản lý bài kiểm tra",
+    "questions": "Quản lý câu hỏi",
+    "profile": "Hồ sơ của tôi"
+  },
+  "dashboard": {
+    "title": "Thống kê",
+    "users": "Tổng số người dùng",
+    "quizzes": "Tổng số bài kiểm tra",
+    "questions": "Tổng số câu hỏi",
+    "answers": "Tổng số câu trả lời"
+  },
+  "manageUser": {
+    "title": "Quản lý người dùng",
+    "addNew": "Thêm mới"
+  },
+  "table": {
+    "username": "Tên người dùng",
+    "role": "Vai trò",
+    "action": "Thao tác",
+    "view": "Chi tiết",
+    "update": "Sửa",
+    "delete": "Xóa",
+    "noData": "Không có dữ liệu người dùng",
+    "loading": "Đang tải dữ liệu..."
+  },
+  "pagination": {
+    "next": "Tiếp theo >",
+    "prev": "< Trước"
+  },
+  "modal": {
+    "addUser": "Thêm Người Dùng",
+    "updateUser": "Cập Nhật Người Dùng",
+    "email": "Email",
+    "enterEmail": "Nhập email",
+    "password": "Mật khẩu",
+    "enterPassword": "Nhập mật khẩu",
+    "username": "Tên người dùng",
+    "enterUsername": "Nhập tên người dùng",
+    "role": "Vai trò",
+    "uploadImage": "Tải ảnh lên",
+    "previewImage": "Xem trước ảnh",
+    "close": "Đóng",
+    "save": "Lưu",
+    "invalidEmail": "Email không hợp lệ",
+    "invalidPassword": "Mật khẩu không được để trống",
+    "invalidImage": "Định dạng ảnh không hợp lệ! Vui lòng tải lên JPEG, PNG hoặc JPG.",
+    "confirmDelete": "Xác nhận xóa người dùng",
+    "confirmDeleteMessage": "Bạn có chắc chắn muốn xóa người dùng có email:",
+    "invalidUser": "Dữ liệu người dùng không hợp lệ!",
+    "cancel": "Hủy",
+    "delete": "Xóa"
   }
 }

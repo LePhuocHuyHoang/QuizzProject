@@ -1,104 +1,88 @@
 import "./Register.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postLogin, postRegister } from "../../services/apiService";
+import { postRegister } from "../../services/apiService";
 import { toast } from "react-toastify";
-import { VscEye } from "react-icons/vsc";
-import { VscEyeClosed } from "react-icons/vsc";
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import Language from "../Header/Language";
+import { useTranslation } from "react-i18next";
 
-const Register = (props) => {
+const Register = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsename] = useState("");
+  const [username, setUsername] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
   const navigate = useNavigate();
+
   const handleRegister = async () => {
-    const isValidEmail = validateEmail(email);
-    if (!isValidEmail) {
-      toast.error("Invalid email");
+    if (!email || !password) {
+      toast.error("Invalid email or password");
       return;
     }
-    if (!password) {
-      toast.error("Invalid password");
-      return;
-    }
+
     let data = await postRegister(email, password, username);
     if (data && data.EC === 0) {
       toast.success(data.EM);
       navigate("/login");
-    }
-    if (data && data.EC !== 0) {
+    } else {
       toast.error(data.EM);
     }
   };
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
+
   return (
     <div className="register-container">
       <div className="header">
-        <span>Already have an account?</span>
-        <button onClick={() => navigate("/login")}>Login</button>
+        <span>{t("register.haveAccount")}</span>
+        <button onClick={() => navigate("/login")}>
+          {t("register.login")}
+        </button>
         <Language />
       </div>
-      <div className="title col-4 mx-auto">Quizz</div>
-      <div className="welcome col-4 mx-auto">
-        Get better data with conversational forms, surveys, quizzes & more.
-      </div>
+      <div className="title col-4 mx-auto">AQuiz</div>
+      <div className="welcome col-4 mx-auto">{t("register.welcome")}</div>
       <div className="content-form col-4 mx-auto">
         <div className="form-group">
-          <label>Email (*)</label>
+          <label>{t("register.email")}</label>
           <input
-            type={"email"}
+            type="email"
             className="form-control"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div className="form-group pass-group">
-          <label>Password (*)</label>
+          <label>{t("register.password")}</label>
           <input
             type={isShowPassword ? "text" : "password"}
             className="form-control"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-          {isShowPassword ? (
-            <span
-              className="icons-eye"
-              onClick={() => setIsShowPassword(false)}
-            >
-              <VscEye />
-            </span>
-          ) : (
-            <span className="icons-eye" onClick={() => setIsShowPassword(true)}>
-              <VscEyeClosed />
-            </span>
-          )}
+          <span
+            className="icons-eye"
+            onClick={() => setIsShowPassword(!isShowPassword)}
+          >
+            {isShowPassword ? <VscEye /> : <VscEyeClosed />}
+          </span>
         </div>
         <div className="form-group">
-          <label>Username</label>
+          <label>{t("register.username")}</label>
           <input
-            type={"username"}
+            type="text"
             className="form-control"
             value={username}
-            onChange={(event) => setUsename(event.target.value)}
+            onChange={(event) => setUsername(event.target.value)}
           />
         </div>
         <div>
-          <button className="btn-submit" onClick={() => handleRegister()}>
-            Register
+          <button className="btn-submit" onClick={handleRegister}>
+            {t("register.registerButton")}
           </button>
         </div>
         <div className="text-center">
           <span className="back" onClick={() => navigate("/")}>
-            {" "}
-            &#60;&#60; Go To HomePage
+            &#60;&#60; {t("register.goHome")}
           </span>
         </div>
       </div>

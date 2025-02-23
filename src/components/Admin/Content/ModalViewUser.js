@@ -4,8 +4,10 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { putUpdateUser } from "../../../services/apiService";
 import _ from "lodash";
+import { useTranslation } from "react-i18next";
 
 const ModalViewUser = (props) => {
+  const { t } = useTranslation();
   const { show, setShow, dataView } = props;
   const handleClose = () => {
     setShow(false);
@@ -20,7 +22,7 @@ const ModalViewUser = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [role, setRole] = useState("USER");
+  const [role, setRole] = useState("");
   const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
 
@@ -36,39 +38,6 @@ const ModalViewUser = (props) => {
     }
   }, [dataView]);
 
-  const handleUploadImage = (event) => {
-    if (event.target && event.target.files && event.target.files[0]) {
-      setPreviewImage(URL.createObjectURL(event.target.files[0]));
-      setImage(event.target.files[0]);
-    } else {
-      //   setPreviewImage("");
-    }
-  };
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
-  const handleSubmitCreateUser = async () => {
-    const isValidEmail = validateEmail(email);
-    if (!isValidEmail) {
-      toast.error("Invalid email");
-      return;
-    }
-
-    let data = await putUpdateUser(dataView.id, username, role, image);
-    if (data && data.EC === 0) {
-      toast.success(data.EM);
-      handleClose();
-      await props.fetchListUsers();
-    }
-    if (data && data.EC !== 0) {
-      toast.error(data.EM);
-    }
-  };
-
   return (
     <>
       <Modal
@@ -79,7 +48,7 @@ const ModalViewUser = (props) => {
         className="modal-add-user"
       >
         <Modal.Header closeButton>
-          <Modal.Title>View User</Modal.Title>
+          <Modal.Title>{t("modal.viewUser")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="row g-3">
@@ -94,7 +63,7 @@ const ModalViewUser = (props) => {
               />
             </div>
             <div className="col-md-6">
-              <label className="form-label">Password</label>
+              <label className="form-label">{t("modal.password")}</label>
               <input
                 type="password"
                 className="form-control"
@@ -105,7 +74,7 @@ const ModalViewUser = (props) => {
             </div>
 
             <div className="col-md-6">
-              <label className="form-label">Username</label>
+              <label className="form-label">{t("modal.username")}</label>
               <input
                 type="text"
                 className="form-control"
@@ -115,7 +84,7 @@ const ModalViewUser = (props) => {
               />
             </div>
             <div className="col-md-4">
-              <label className="form-label">Role</label>
+              <label className="form-label">{t("modal.role")}</label>
               <select
                 className="form-select"
                 onChange={(event) => setRole(event.target.value)}
@@ -131,14 +100,14 @@ const ModalViewUser = (props) => {
               {previewImage ? (
                 <img src={previewImage} />
               ) : (
-                <span>Preview Image</span>
+                <span>{t("modal.previewImage")}</span>
               )}
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            {t("modal.close")}
           </Button>
         </Modal.Footer>
       </Modal>

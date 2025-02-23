@@ -5,10 +5,11 @@ import { FcPlus } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { putUpdateQuiz } from "../../../../services/apiService";
 import _ from "lodash";
+import { useTranslation } from "react-i18next";
 
 const ModalUpdateQuiz = (props) => {
+  const { t } = useTranslation();
   const { show, setShow, dataUpdate } = props;
-
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [difficulty, setDifficulty] = useState("EASY");
@@ -69,12 +70,12 @@ const ModalUpdateQuiz = (props) => {
   return (
     <Modal show={show} onHide={handleClose} size="lg" backdrop="static">
       <Modal.Header closeButton>
-        <Modal.Title>Update Quiz</Modal.Title>
+        <Modal.Title>{t("quiz.updateTitle")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form className="row g-3">
           <div className="col-md-6">
-            <label className="form-label">Quiz Name</label>
+            <label className="form-label">{t("quiz.name")}</label>
             <input
               type="text"
               className="form-control"
@@ -84,7 +85,7 @@ const ModalUpdateQuiz = (props) => {
           </div>
 
           <div className="col-md-6">
-            <label className="form-label">Difficulty</label>
+            <label className="form-label">{t("quiz.difficulty")}</label>
             <select
               className="form-select"
               value={difficulty}
@@ -97,7 +98,7 @@ const ModalUpdateQuiz = (props) => {
           </div>
 
           <div className="col-md-12">
-            <label className="form-label">Description</label>
+            <label className="form-label">{t("quiz.description")}</label>
             <textarea
               className="form-control"
               rows="3"
@@ -108,7 +109,7 @@ const ModalUpdateQuiz = (props) => {
 
           <div className="col-md-12">
             <label className="form-label label-upload" htmlFor="labelUpload">
-              <FcPlus /> Upload Quiz Image
+              <FcPlus /> {t("quiz.uploadImage")}
             </label>
             <input
               type="file"
@@ -122,17 +123,17 @@ const ModalUpdateQuiz = (props) => {
             {previewImage ? (
               <img src={previewImage} alt="Quiz Preview" />
             ) : (
-              <span>Preview Image</span>
+              <span>{t("quiz.noImage")}</span>
             )}
           </div>
         </form>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Close
+          {t("quiz.close")}
         </Button>
         <Button variant="primary" onClick={handleSubmitUpdateQuiz}>
-          Save
+          t("quiz.save")
         </Button>
       </Modal.Footer>
     </Modal>
