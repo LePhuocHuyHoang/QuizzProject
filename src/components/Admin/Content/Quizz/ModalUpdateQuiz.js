@@ -133,7 +133,7 @@ const ModalUpdateQuiz = (props) => {
           {t("quiz.close")}
         </Button>
         <Button variant="primary" onClick={handleSubmitUpdateQuiz}>
-          t("quiz.save")
+          {t("quiz.save")}
         </Button>
       </Modal.Footer>
     </Modal>

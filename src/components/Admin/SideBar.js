@@ -1,4 +1,3 @@
-import "react-pro-sidebar/dist/css/styles.css";
 import {
   ProSidebar,
   Menu,
@@ -11,6 +10,7 @@ import {
 import { FaTachometerAlt, FaGem, FaGithub } from "react-icons/fa";
 import { DiReact } from "react-icons/di";
 import sidebarBg from "../../assets/bg2.jpg";
+import logoSideBar from "../../assets/logo.png";
 import "./SideBar.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -29,21 +29,19 @@ const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
     >
       <SidebarHeader>
         <div
+          className={`sidebar-header-wrapper ${collapsed ? "collapsed" : ""}`}
           style={{
-            padding: "24px",
-            textTransform: "uppercase",
-            fontWeight: "bold",
-            fontSize: 14,
-            letterSpacing: "1px",
             overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
             textAlign: "center",
           }}
         >
-          <span onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
-            AQuiz
-          </span>
+          <img
+            src={logoSideBar}
+            alt="AQuiz Logo"
+            className="logo"
+            onClick={() => navigate("/")}
+            style={{ cursor: "pointer" }}
+          />
         </div>
       </SidebarHeader>
 
@@ -73,7 +71,10 @@ const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
       </SidebarContent>
 
       <SidebarFooter style={{ textAlign: "center" }}>
-        <div className="sidebar-btn-wrapper" style={{ padding: "20px 24px" }}>
+        <div
+          className={`sidebar-btn-wrapper ${collapsed ? "collapsed" : ""}`}
+          style={{ padding: "20px 24px" }}
+        >
           <a
             href="https://github.com/LePhuocHuyHoang"
             target="_blank"

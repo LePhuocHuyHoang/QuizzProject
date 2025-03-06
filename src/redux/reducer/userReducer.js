@@ -1,6 +1,7 @@
 import {
   FETCH_USER_LOGIN_SUCCESS,
   USER_LOGOUT_SUCCESS,
+  UPDATE_USER_PROFILE,
 } from "../action/userAction";
 
 const INITIAL_STATE = {
@@ -14,6 +15,7 @@ const INITIAL_STATE = {
   },
   isAuthenticated: false,
 };
+
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case FETCH_USER_LOGIN_SUCCESS:
@@ -41,6 +43,14 @@ const userReducer = (state = INITIAL_STATE, action) => {
           email: "",
         },
         isAuthenticated: false,
+      };
+    case UPDATE_USER_PROFILE:
+      return {
+        ...state,
+        account: {
+          ...state.account,
+          ...action.payload,
+        },
       };
     default:
       return state;

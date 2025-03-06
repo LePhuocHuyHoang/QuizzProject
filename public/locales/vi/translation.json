@@ -1,7 +1,7 @@
 {
   "homepage": {
     "title1": "“Chúng ta cần biết rằng chúng ta đang xây dựng những thứ phù hợp cho những vấn đề thực sự.”",
-    "title2": "Chase Clark, Nhà nghiên cứu UX cao cấp tại Calm, giải thích lý do tại sao họ chuyển sang Typeform.",
+    "title2": "Chase Clark, Nhà nghiên cứu UX cao cấp tại Calm, giải thích lý do tại sao họ chuyển sang AQUIZ.",
     "title3": {
       "login": "Hãy bắt đầu. Nó miễn phí",
       "users": "Làm Quiz ngay bây giờ!"
@@ -139,6 +139,24 @@
     "confirmDeleteMessage": "Bạn có chắc chắn muốn xóa người dùng có email:",
     "invalidUser": "Dữ liệu người dùng không hợp lệ!",
     "cancel": "Hủy",
-    "delete": "Xóa"
+    "delete": "Xóa",
+    "userProfile": "Hồ sơ người dùng",
+    "profileImage": "Ảnh đại diện",
+    "update": "Cập nhật",
+    "updateProfile": "Cập nhật hồ sơ",
+    "changePassword": "Thay đổi mật khẩu",
+    "history": "Lịch sử bài thi",
+    "enterCurrentPassword": "Nhập mật khẩu hiện tại",
+    "currentPassword": "Mật khẩu hiện tại",
+    "newPassword": "Mật khẩu mới",
+    "enterNewPassword": "Nhập mật khẩu mới",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "enterConfirmPassword": "Nhập lại mật khẩu",
+    "passwordMismatch": "Mật khẩu mới và mật khẩu xác nhận không khớp",
+    "passwordSameAsOld": "Mật khẩu mới phải khác mật khẩu cũ",
+    "changePasswordSuccess": "Đổi mật khẩu thành công",
+    "changePasswordError": "Lỗi khi đổi mật khẩu",
+    "updateError": "Lỗi khi cập nhật hồ sơ",
+    "change": "Thay đổi"
   }
 }

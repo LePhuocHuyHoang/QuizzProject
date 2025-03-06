@@ -10,6 +10,8 @@ import QuizQA from "./QuizQA";
 import AssignQuiz from "./AssignQuiz";
 import { useTranslation } from "react-i18next";
 import { FcPlus } from "react-icons/fc";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 const options = [
   { value: "EASY", label: "EASY" },
@@ -47,13 +49,16 @@ const ManageQuiz = () => {
     }
   };
   return (
-    <div className="quiz-container">
-      <Accordion defaultActiveKey="0">
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>
-            <div className="title">{t("quiz.manageQuizzes")}</div>
-          </Accordion.Header>
-          <Accordion.Body>
+    <>
+      <div className="quiz-container">
+        {" "}
+        <Tabs
+          defaultActiveKey="home"
+          id="justify-tab-example"
+          className="mb-3"
+          justify
+        >
+          <Tab eventKey="home" title={t("quiz.manageQuizzes")}>
             <div className="add-new">
               <fieldset className="border rounded-3 p-3">
                 <legend className="float-none w-auto px-3">
@@ -119,26 +124,16 @@ const ManageQuiz = () => {
             <div className="list-detail">
               <TableQuiz />
             </div>
-          </Accordion.Body>
-        </Accordion.Item>
-        <Accordion.Item eventKey="1">
-          <Accordion.Header>
-            <div className="title">{t("quiz.updateQA")}</div>
-          </Accordion.Header>
-          <Accordion.Body>
+          </Tab>
+          <Tab eventKey="profile" title={t("quiz.updateQA")}>
             <QuizQA />
-          </Accordion.Body>
-        </Accordion.Item>
-        <Accordion.Item eventKey="2">
-          <Accordion.Header>
-            <div className="title">{t("quiz.assignUsers")}</div>
-          </Accordion.Header>
-          <Accordion.Body>
+          </Tab>
+          <Tab eventKey="longer-tab" title={t("quiz.assignUsers")}>
             <AssignQuiz />
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
-    </div>
+          </Tab>
+        </Tabs>
+      </div>
+    </>
   );
 };
 

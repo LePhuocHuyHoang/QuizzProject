@@ -53,7 +53,7 @@ const ListQuizz = () => {
           </div>
         ))
       ) : (
-        <div>{t("listQuizz.noQuizz")}</div>
+        <div className="no-quizz">{t("listQuizz.noQuizz")}</div>
       )}
     </div>
   );

@@ -9,6 +9,9 @@ import { toast } from "react-toastify";
 import { doLogout } from "../../redux/action/userAction";
 import Language from "./Language";
 import { useTranslation } from "react-i18next";
+import logoSideBar from "../../assets/logo.png";
+import Profile from "./Profile";
+import { useState } from "react";
 
 const Header = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -16,6 +19,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [showProfile, setShowProfile] = useState(false);
 
   const handleLogin = () => {
     navigate("/login");
@@ -35,55 +39,78 @@ const Header = () => {
     }
   };
 
+  const userRole = account?.role;
+
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
-        <NavLink to="/" className="navbar-brand">
-          AQuiz
-        </NavLink>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <NavLink to="/" className="nav-link">
-              {t("header.home")}
-            </NavLink>
-            <NavLink to="/users" className="nav-link">
-              {t("header.users")}
-            </NavLink>
-            <NavLink to="/admin" className="nav-link">
-              {t("header.admin")}
-            </NavLink>
-          </Nav>
-          <div style={{ marginRight: "10px" }}>
-            <Language />
-          </div>
-          <Nav>
-            {isAuthenticated === false ? (
-              <>
-                <button className="btn-login" onClick={handleLogin}>
-                  {t("header.login")}
-                </button>
-                <button className="btn-signup" onClick={handleRegister}>
-                  {t("header.signup")}
-                </button>
-              </>
-            ) : (
-              <NavDropdown
-                title={t("header.settings")}
-                id="basic-nav-dropdown"
-                className="custom-dropdown"
-              >
-                <NavDropdown.Item>{t("header.profile")}</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={handleLogOut}>
-                  {t("header.logout")}
-                </NavDropdown.Item>
-              </NavDropdown>
-            )}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <>
+      <Navbar expand="lg" className="bg-body-tertiary">
+        <Container>
+          <NavLink>
+            <img
+              src={logoSideBar}
+              alt="AQuiz Logo"
+              className="logo"
+              onClick={() => navigate("/")}
+              style={{
+                cursor: "pointer",
+                marginTop: "-50px",
+                marginBottom: "-55px",
+              }}
+            />
+          </NavLink>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <NavLink to="/" className="nav-link">
+                {t("header.home")}
+              </NavLink>
+              {(isAuthenticated === false ||
+                userRole === "USER" ||
+                userRole === "ADMIN") && (
+                <NavLink to="/users" className="nav-link">
+                  {t("header.users")}
+                </NavLink>
+              )}
+              {(isAuthenticated === false || userRole === "ADMIN") && (
+                <NavLink to="/admin" className="nav-link">
+                  {t("header.admin")}
+                </NavLink>
+              )}
+            </Nav>
+            <div style={{ marginRight: "10px" }}>
+              <Language />
+            </div>
+            <Nav>
+              {isAuthenticated === false ? (
+                <>
+                  <button className="btn-login" onClick={handleLogin}>
+                    {t("header.login")}
+                  </button>
+                  <button className="btn-signup" onClick={handleRegister}>
+                    {t("header.signup")}
+                  </button>
+                </>
+              ) : (
+                <NavDropdown
+                  title={t("header.settings")}
+                  id="basic-nav-dropdown"
+                  className="custom-dropdown"
+                >
+                  <NavDropdown.Item onClick={() => setShowProfile(true)}>
+                    {t("header.profile")}
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleLogOut}>
+                    {t("header.logout")}
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      <Profile show={showProfile} setShow={setShowProfile} account={account} />
+    </>
   );
 };
 

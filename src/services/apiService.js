@@ -107,6 +107,18 @@ const logOut = (email, refresh_token) => {
 const getOverView = () => {
   return axios.get(`v1/overview`);
 };
+const updateProfile = (username, userImage) => {
+  const data = new FormData();
+  data.append("username", username);
+  data.append("userImage", userImage);
+  return axios.post(`v1/profile`, data);
+};
+const changePassword = (current_password, new_password) => {
+  const data = new FormData();
+  data.append("current_password", current_password);
+  data.append("new_password", new_password);
+  return axios.post(`v1/change-password`, data);
+};
 export {
   postCreateNewUser,
   getAllUsers,
@@ -129,4 +141,6 @@ export {
   postUpsertQA,
   logOut,
   getOverView,
+  updateProfile,
+  changePassword,
 };
