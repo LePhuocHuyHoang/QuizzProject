@@ -119,6 +119,9 @@ const changePassword = (current_password, new_password) => {
   data.append("new_password", new_password);
   return axios.post(`v1/change-password`, data);
 };
+const getHistory = () => {
+  return axios.get(`v1/history`);
+};
 export {
   postCreateNewUser,
   getAllUsers,
@@ -143,4 +146,5 @@ export {
   getOverView,
   updateProfile,
   changePassword,
+  getHistory,
 };

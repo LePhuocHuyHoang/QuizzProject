@@ -157,6 +157,13 @@
     "changePasswordSuccess": "Password changed successfully",
     "changePasswordError": "Error changing password",
     "updateError": "Error updating profile",
-    "change": "Change"
+    "change": "Change",
+    "fetchHistoryError": "Error fetching history",
+    "historyId": "ID",
+    "quizName": "Quiz Name",
+    "totalQuestions": "Total Questions",
+    "totalCorrect": "Total Correct",
+    "date": "Date",
+    "noHistory": "No history available!"
   }
 }

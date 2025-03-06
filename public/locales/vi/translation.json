@@ -157,6 +157,13 @@
     "changePasswordSuccess": "Đổi mật khẩu thành công",
     "changePasswordError": "Lỗi khi đổi mật khẩu",
     "updateError": "Lỗi khi cập nhật hồ sơ",
-    "change": "Thay đổi"
+    "change": "Thay đổi",
+    "fetchHistoryError": "Lỗi khi lấy lịch sử",
+    "historyId": "ID",
+    "quizName": "Tên bài kiểm tra",
+    "totalQuestions": "Tổng số câu hỏi",
+    "totalCorrect": "Số câu đúng",
+    "date": "Ngày làm bài",
+    "noHistory": "Không có lịch sử làm bài!"
   }
 }

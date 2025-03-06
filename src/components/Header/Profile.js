@@ -4,7 +4,11 @@ import Modal from "react-bootstrap/Modal";
 import { FcPlus } from "react-icons/fc";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { updateProfile, changePassword } from "../../services/apiService";
+import {
+  updateProfile,
+  changePassword,
+  getHistory,
+} from "../../services/apiService";
 import { useDispatch } from "react-redux";
 import { updateUserProfile } from "../../redux/action/userAction";
 import _ from "lodash";
@@ -27,6 +31,8 @@ const Profile = (props) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [historyData, setHistoryData] = useState([]);
+
   useEffect(() => {
     if (!_.isEmpty(account)) {
       const initialData = {
@@ -45,7 +51,30 @@ const Profile = (props) => {
       setImage("");
       console.log("Account updated in useEffect:", account);
     }
-  }, [account]);
+    if (show) {
+      fetchHistory();
+    }
+  }, [account, show]);
+
+  const fetchHistory = async () => {
+    try {
+      let response = await getHistory();
+      console.log("History raw response:", response);
+      const data = response.data || response;
+      console.log("Processed history data:", data);
+
+      if (data && data.EC === 0) {
+        setHistoryData(data.DT.data || []);
+      } else {
+        toast.error(data.EM || t("modal.fetchHistoryError"));
+        setHistoryData([]);
+      }
+    } catch (error) {
+      toast.error(t("modal.fetchHistoryError"));
+      console.error("Fetch history error:", error);
+      setHistoryData([]);
+    }
+  };
 
   const handleClose = () => {
     setShow(false);
@@ -79,11 +108,16 @@ const Profile = (props) => {
           previewImage: image
             ? URL.createObjectURL(image)
             : originalData.previewImage,
+          image:
+            data.DT?.image ||
+            (image ? await convertFileToBase64(image) : account.image),
         };
         setOriginalData(updatedData);
         const updatedProfile = {
           username: username,
-          image: data.DT?.image || account.image,
+          image:
+            data.DT?.image ||
+            (image ? await convertFileToBase64(image) : account.image),
         };
         dispatch(updateUserProfile(updatedProfile));
         console.log("Dispatched profile update:", updatedProfile);
@@ -97,12 +131,20 @@ const Profile = (props) => {
     }
   };
 
+  const convertFileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result.split(",")[1]);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handleChangePassword = async () => {
     if (newPassword === currentPassword) {
       toast.error(t("modal.passwordSameAsOld"));
       return;
     }
-
     if (newPassword !== confirmPassword) {
       toast.error(t("modal.passwordMismatch"));
       return;
@@ -257,7 +299,45 @@ const Profile = (props) => {
             </Button>
           </Modal.Footer>
         </Tab>
-        <Tab eventKey="longer-tab" title={t("modal.history")}></Tab>
+        <Tab eventKey="longer-tab" title={t("modal.history")}>
+          <Modal.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
+            <table className="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">{t("modal.historyId")}</th>
+                  <th scope="col">{t("modal.quizName")}</th>
+                  <th scope="col">{t("modal.totalQuestions")}</th>
+                  <th scope="col">{t("modal.totalCorrect")}</th>
+                  <th scope="col">{t("modal.date")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {historyData.length > 0 ? (
+                  historyData.map((item, index) => (
+                    <tr key={index}>
+                      <th scope="row">{item.id}</th>
+                      <td>{item.quizHistory?.name || "Unknown Quiz"}</td>
+                      <td>{item.total_questions}</td>
+                      <td>{item.total_correct}</td>
+                      <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="text-center">
+                      {t("modal.noHistory")}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              {t("modal.close")}
+            </Button>
+          </Modal.Footer>
+        </Tab>
       </Tabs>
     </Modal>
   );
