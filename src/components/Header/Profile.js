@@ -4,6 +4,8 @@ import Modal from "react-bootstrap/Modal";
 import { FcPlus } from "react-icons/fc";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import Moment from "react-moment";
+import "moment"; // Thêm import moment
 import {
   updateProfile,
   changePassword,
@@ -14,7 +16,7 @@ import { updateUserProfile } from "../../redux/action/userAction";
 import _ from "lodash";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { VscEye, VscEyeClosed } from "react-icons/vsc"; // Thêm icon mắt
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
 
 const Profile = (props) => {
   const { t } = useTranslation();
@@ -31,8 +33,6 @@ const Profile = (props) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  // Thêm trạng thái hiển thị/ẩn cho từng trường mật khẩu
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -92,7 +92,7 @@ const Profile = (props) => {
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
-    setShowCurrentPassword(false); // Reset trạng thái
+    setShowCurrentPassword(false);
     setShowNewPassword(false);
     setShowConfirmPassword(false);
   };
@@ -170,7 +170,7 @@ const Profile = (props) => {
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
-        setShowCurrentPassword(false); // Reset trạng thái
+        setShowCurrentPassword(false);
         setShowNewPassword(false);
         setShowConfirmPassword(false);
       } else {
@@ -387,7 +387,11 @@ const Profile = (props) => {
                         <td>{item.quizHistory?.name || "Unknown Quiz"}</td>
                         <td>{item.total_questions}</td>
                         <td>{item.total_correct}</td>
-                        <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                        <td>
+                          <Moment format="DD-MM-YYYY HH:mm">
+                            {item.createdAt}
+                          </Moment>
+                        </td>
                       </tr>
                     ))
                   ) : (
