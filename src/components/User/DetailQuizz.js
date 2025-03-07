@@ -18,6 +18,7 @@ const DetailQuizz = () => {
   const [index, setIndex] = useState(0);
   const [isShowModalResult, setIsShowModalResult] = useState(false);
   const [dataModalResult, setDataModalResult] = useState({});
+  const [isQuizFinished, setIsQuizFinished] = useState(false);
 
   useEffect(() => {
     fetchQuestions();
@@ -67,8 +68,11 @@ const DetailQuizz = () => {
   };
 
   const handleCheckbox = (answerId, questionId) => {
+    if (isQuizFinished) return;
     let dataQuizzClone = _.cloneDeep(dataQuizz);
-    let question = dataQuizz.find((item) => +item.questionId === +questionId);
+    let question = dataQuizzClone.find(
+      (item) => +item.questionId === +questionId
+    );
     if (question && question.answers) {
       question.answers = question.answers.map((item) => {
         if (+item.id === +answerId) {
@@ -103,20 +107,34 @@ const DetailQuizz = () => {
       });
 
       payload.answers = answers;
+      console.log("Payload sent to API:", payload);
       let res = await postSubmitQuiz(payload);
+      console.log("API response:", res);
 
       if (res && res.EC === 0) {
-        setDataModalResult({
-          countCorrect: res.DT.countCorrect,
-          countTotal: res.DT.countTotal,
-          quizData: res.DT.quizData,
-        });
+        const resultData = {
+          countCorrect: res.DT.countCorrect || 0,
+          countTotal: res.DT.countTotal || 0,
+          quizData: res.DT.quizData || [],
+        };
+        setDataModalResult(resultData);
+        console.log("Data stored in dataModalResult:", resultData);
         setIsShowModalResult(true);
+        setIsQuizFinished(true);
       } else {
         alert(t("quiz.errorMessage"));
       }
     }
   };
+
+  useEffect(() => {
+    console.log("isQuizFinished in DetailQuizz:", isQuizFinished);
+  }, [isQuizFinished]);
+
+  // Log để kiểm tra dataModalResult mỗi khi nó thay đổi
+  useEffect(() => {
+    console.log("dataModalResult updated:", dataModalResult);
+  }, [dataModalResult]);
 
   return (
     <>
@@ -134,6 +152,7 @@ const DetailQuizz = () => {
               index={index}
               handleCheckbox={handleCheckbox}
               data={dataQuizz.length > 0 ? dataQuizz[index] : []}
+              isQuizFinished={isQuizFinished}
             />
           </div>
           <div className="footer">
@@ -143,7 +162,11 @@ const DetailQuizz = () => {
             <button className="btn btn-primary" onClick={handleNext}>
               {t("quiz.next")}
             </button>
-            <button className="btn btn-warning" onClick={handleFinishQuizz}>
+            <button
+              className="btn btn-warning"
+              onClick={handleFinishQuizz}
+              disabled={isQuizFinished}
+            >
               {t("quiz.finish")}
             </button>
           </div>
@@ -153,6 +176,7 @@ const DetailQuizz = () => {
             dataQuizz={dataQuizz}
             handleFinishQuizz={handleFinishQuizz}
             setIndex={setIndex}
+            isQuizFinished={isQuizFinished}
           />
         </div>
         <ModalResult

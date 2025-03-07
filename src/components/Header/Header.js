@@ -41,16 +41,28 @@ const Header = () => {
 
   const userRole = account?.role;
 
+  const imageSrc = account?.image?.startsWith("data:image")
+    ? account.image
+    : account?.image
+    ? `data:image/jpeg;base64,${account.image}`
+    : null;
+
   return (
     <>
+      <style>
+        {`
+          .no-arrow .dropdown-toggle::after {
+            display: none !important;
+          }
+        `}
+      </style>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
-          <NavLink>
+          <NavLink to="/">
             <img
               src={logoSideBar}
               alt="AQuiz Logo"
               className="logo"
-              onClick={() => navigate("/")}
               style={{
                 cursor: "pointer",
                 marginTop: "-50px",
@@ -58,6 +70,7 @@ const Header = () => {
               }}
             />
           </NavLink>
+
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
@@ -80,7 +93,7 @@ const Header = () => {
             <div style={{ marginRight: "10px" }}>
               <Language />
             </div>
-            <Nav>
+            <Nav className="align-items-center">
               {isAuthenticated === false ? (
                 <>
                   <button className="btn-login" onClick={handleLogin}>
@@ -91,19 +104,36 @@ const Header = () => {
                   </button>
                 </>
               ) : (
-                <NavDropdown
-                  title={t("header.settings")}
-                  id="basic-nav-dropdown"
-                  className="custom-dropdown"
-                >
-                  <NavDropdown.Item onClick={() => setShowProfile(true)}>
-                    {t("header.profile")}
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item onClick={handleLogOut}>
-                    {t("header.logout")}
-                  </NavDropdown.Item>
-                </NavDropdown>
+                <>
+                  {/* Thay chữ Settings bằng avatar và ẩn mũi tên */}
+                  {imageSrc && (
+                    <NavDropdown
+                      title={
+                        <img
+                          src={imageSrc}
+                          alt="User Avatar"
+                          className="user-avatar"
+                          style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      }
+                      id="basic-nav-dropdown"
+                      className="custom-dropdown no-arrow" // Thêm class no-arrow
+                    >
+                      <NavDropdown.Item onClick={() => setShowProfile(true)}>
+                        {t("header.profile")}
+                      </NavDropdown.Item>
+                      <NavDropdown.Divider />
+                      <NavDropdown.Item onClick={handleLogOut}>
+                        {t("header.logout")}
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  )}
+                </>
               )}
             </Nav>
           </Navbar.Collapse>

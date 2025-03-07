@@ -14,6 +14,7 @@ import { updateUserProfile } from "../../redux/action/userAction";
 import _ from "lodash";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import { VscEye, VscEyeClosed } from "react-icons/vsc"; // Thêm icon mắt
 
 const Profile = (props) => {
   const { t } = useTranslation();
@@ -30,6 +31,11 @@ const Profile = (props) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Thêm trạng thái hiển thị/ẩn cho từng trường mật khẩu
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [historyData, setHistoryData] = useState([]);
 
@@ -86,6 +92,9 @@ const Profile = (props) => {
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
+    setShowCurrentPassword(false); // Reset trạng thái
+    setShowNewPassword(false);
+    setShowConfirmPassword(false);
   };
 
   const handleUploadImage = (event) => {
@@ -161,6 +170,9 @@ const Profile = (props) => {
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
+        setShowCurrentPassword(false); // Reset trạng thái
+        setShowNewPassword(false);
+        setShowConfirmPassword(false);
       } else {
         toast.error(data.EM || t("modal.changePasswordError"));
       }
@@ -171,175 +183,232 @@ const Profile = (props) => {
   };
 
   return (
-    <Modal
-      show={show}
-      onHide={handleClose}
-      size="lg"
-      backdrop="static"
-      className="modal-profile"
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>{t("modal.userProfile")}</Modal.Title>
-      </Modal.Header>
-
-      <Tabs
-        defaultActiveKey="home"
-        id="justify-tab-example"
-        className="mb-3"
-        justify
+    <>
+      <style>
+        {`
+          .pass-group {
+            position: relative;
+            margin-bottom: 15px;
+          }
+          .pass-group .form-control {
+            padding-right: 40px;
+          }
+          .pass-group .icons-eye {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 20px;
+            color: #777;
+          }
+          .pass-group .icons-eye:hover {
+            color: #000;
+          }
+        `}
+      </style>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        size="lg"
+        backdrop="static"
+        className="modal-profile"
       >
-        <Tab eventKey="home" title={t("modal.updateProfile")}>
-          <Modal.Body>
-            <form className="row g-3">
-              <div className="col-md-6">
-                <label className="form-label">{t("modal.username")}</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={username}
-                  onChange={(event) => setUsername(event.target.value)}
-                />
-              </div>
-              <div className="col-md-6">
-                <label className="form-label">{t("modal.email")}</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  value={email}
-                  disabled
-                />
-              </div>
-              <div className="col-md-6">
-                <label className="form-label">{t("modal.role")}</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={role}
-                  disabled
-                />
-              </div>
-              <div className="col-md-12">
-                <label
-                  className="form-label label-upload"
-                  htmlFor="labelUpload"
-                  style={{ marginBottom: "-10px" }}
-                >
-                  <FcPlus /> {t("modal.uploadImage")}
-                </label>
-                <input
-                  type="file"
-                  hidden
-                  id="labelUpload"
-                  onChange={(event) => handleUploadImage(event)}
-                />
-              </div>
-              <div className="col-md-12 img-preview">
-                {previewImage ? (
-                  <img src={previewImage} alt="Profile" />
-                ) : (
-                  <span>{t("modal.previewImage")}</span>
-                )}
-              </div>
-            </form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              {t("modal.close")}
-            </Button>
-            <Button variant="primary" onClick={handleUpdateProfile}>
-              {t("modal.update")}
-            </Button>
-          </Modal.Footer>
-        </Tab>
-        <Tab eventKey="profile" title={t("modal.changePassword")}>
-          <Modal.Body>
-            <form className="row g-3">
-              <div className="col-md-12">
-                <label className="form-label">
-                  {t("modal.currentPassword")}
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  value={currentPassword}
-                  onChange={(event) => setCurrentPassword(event.target.value)}
-                  placeholder={t("modal.enterCurrentPassword")}
-                />
-              </div>
-              <div className="col-md-12">
-                <label className="form-label">{t("modal.newPassword")}</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  value={newPassword}
-                  onChange={(event) => setNewPassword(event.target.value)}
-                  placeholder={t("modal.enterNewPassword")}
-                />
-              </div>
-              <div className="col-md-12">
-                <label className="form-label">
-                  {t("modal.confirmPassword")}
-                </label>
-                <input
-                  type="password"
-                  className="form-control"
-                  value={confirmPassword}
-                  onChange={(event) => setConfirmPassword(event.target.value)}
-                  placeholder={t("modal.enterConfirmPassword")}
-                />
-              </div>
-            </form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              {t("modal.close")}
-            </Button>
-            <Button variant="primary" onClick={handleChangePassword}>
-              {t("modal.change")}
-            </Button>
-          </Modal.Footer>
-        </Tab>
-        <Tab eventKey="longer-tab" title={t("modal.history")}>
-          <Modal.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
-            <table className="table table-hover table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col">{t("modal.historyId")}</th>
-                  <th scope="col">{t("modal.quizName")}</th>
-                  <th scope="col">{t("modal.totalQuestions")}</th>
-                  <th scope="col">{t("modal.totalCorrect")}</th>
-                  <th scope="col">{t("modal.date")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {historyData.length > 0 ? (
-                  historyData.map((item, index) => (
-                    <tr key={index}>
-                      <th scope="row">{item.id}</th>
-                      <td>{item.quizHistory?.name || "Unknown Quiz"}</td>
-                      <td>{item.total_questions}</td>
-                      <td>{item.total_correct}</td>
-                      <td>{new Date(item.createdAt).toLocaleDateString()}</td>
-                    </tr>
-                  ))
-                ) : (
+        <Modal.Header closeButton>
+          <Modal.Title>{t("modal.userProfile")}</Modal.Title>
+        </Modal.Header>
+
+        <Tabs
+          defaultActiveKey="home"
+          id="justify-tab-example"
+          className="mb-3"
+          justify
+        >
+          <Tab eventKey="home" title={t("modal.updateProfile")}>
+            <Modal.Body>
+              <form className="row g-3">
+                <div className="col-md-6">
+                  <label className="form-label">{t("modal.username")}</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">{t("modal.email")}</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    value={email}
+                    disabled
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">{t("modal.role")}</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={role}
+                    disabled
+                  />
+                </div>
+                <div className="col-md-12">
+                  <label
+                    className="form-label label-upload"
+                    htmlFor="labelUpload"
+                    style={{ marginBottom: "-10px" }}
+                  >
+                    <FcPlus /> {t("modal.uploadImage")}
+                  </label>
+                  <input
+                    type="file"
+                    hidden
+                    id="labelUpload"
+                    onChange={(event) => handleUploadImage(event)}
+                  />
+                </div>
+                <div className="col-md-12 img-preview">
+                  {previewImage ? (
+                    <img src={previewImage} alt="Profile" />
+                  ) : (
+                    <span>{t("modal.previewImage")}</span>
+                  )}
+                </div>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                {t("modal.close")}
+              </Button>
+              <Button variant="primary" onClick={handleUpdateProfile}>
+                {t("modal.update")}
+              </Button>
+            </Modal.Footer>
+          </Tab>
+          <Tab eventKey="profile" title={t("modal.changePassword")}>
+            <Modal.Body>
+              <form className="row g-3">
+                <div className="col-md-12 pass-group">
+                  <label className="form-label">
+                    {t("modal.currentPassword")}
+                  </label>
+                  <div style={{ position: "relative" }}>
+                    <input
+                      type={showCurrentPassword ? "text" : "password"}
+                      className="form-control"
+                      value={currentPassword}
+                      onChange={(event) =>
+                        setCurrentPassword(event.target.value)
+                      }
+                      placeholder={t("modal.enterCurrentPassword")}
+                    />
+                    <span
+                      className="icons-eye"
+                      onClick={() =>
+                        setShowCurrentPassword(!showCurrentPassword)
+                      }
+                    >
+                      {showCurrentPassword ? <VscEye /> : <VscEyeClosed />}
+                    </span>
+                  </div>
+                </div>
+                <div className="col-md-12 pass-group">
+                  <label className="form-label">{t("modal.newPassword")}</label>
+                  <div style={{ position: "relative" }}>
+                    <input
+                      type={showNewPassword ? "text" : "password"}
+                      className="form-control"
+                      value={newPassword}
+                      onChange={(event) => setNewPassword(event.target.value)}
+                      placeholder={t("modal.enterNewPassword")}
+                    />
+                    <span
+                      className="icons-eye"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                    >
+                      {showNewPassword ? <VscEye /> : <VscEyeClosed />}
+                    </span>
+                  </div>
+                </div>
+                <div className="col-md-12 pass-group">
+                  <label className="form-label">
+                    {t("modal.confirmPassword")}
+                  </label>
+                  <div style={{ position: "relative" }}>
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      className="form-control"
+                      value={confirmPassword}
+                      onChange={(event) =>
+                        setConfirmPassword(event.target.value)
+                      }
+                      placeholder={t("modal.enterConfirmPassword")}
+                    />
+                    <span
+                      className="icons-eye"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                    >
+                      {showConfirmPassword ? <VscEye /> : <VscEyeClosed />}
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                {t("modal.close")}
+              </Button>
+              <Button variant="primary" onClick={handleChangePassword}>
+                {t("modal.change")}
+              </Button>
+            </Modal.Footer>
+          </Tab>
+          <Tab eventKey="longer-tab" title={t("modal.history")}>
+            <Modal.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
+              <table className="table table-hover table-bordered">
+                <thead>
                   <tr>
-                    <td colSpan="5" className="text-center">
-                      {t("modal.noHistory")}
-                    </td>
+                    <th scope="col">{t("modal.historyId")}</th>
+                    <th scope="col">{t("modal.quizName")}</th>
+                    <th scope="col">{t("modal.totalQuestions")}</th>
+                    <th scope="col">{t("modal.totalCorrect")}</th>
+                    <th scope="col">{t("modal.date")}</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              {t("modal.close")}
-            </Button>
-          </Modal.Footer>
-        </Tab>
-      </Tabs>
-    </Modal>
+                </thead>
+                <tbody>
+                  {historyData.length > 0 ? (
+                    historyData.map((item, index) => (
+                      <tr key={index}>
+                        <th scope="row">{item.id}</th>
+                        <td>{item.quizHistory?.name || "Unknown Quiz"}</td>
+                        <td>{item.total_questions}</td>
+                        <td>{item.total_correct}</td>
+                        <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="text-center">
+                        {t("modal.noHistory")}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                {t("modal.close")}
+              </Button>
+            </Modal.Footer>
+          </Tab>
+        </Tabs>
+      </Modal>
+    </>
   );
 };
 

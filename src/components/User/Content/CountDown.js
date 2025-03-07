@@ -1,19 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-const CountDown = (props) => {
-  const [count, setCount] = useState(300);
+const CountDown = ({ onTimeUp, isQuizFinished }) => {
+  const [count, setCount] = useState(600);
+  const hasSubmitted = useRef(false);
+
   useEffect(() => {
-    if (count === 0) {
-      props.onTimeUp();
+    if (isQuizFinished || count === 0) {
+      if (count === 0 && !hasSubmitted.current) {
+        hasSubmitted.current = true;
+        onTimeUp();
+      }
       return;
     }
+
     const timer = setInterval(() => {
-      setCount(count - 1);
+      setCount((prevCount) => prevCount - 1);
     }, 1000);
+
     return () => {
       clearInterval(timer);
     };
-  }, [count]);
+  }, [count, isQuizFinished, onTimeUp]);
+
   const toHHMMSS = (secs) => {
     const sec_num = parseInt(secs, 10);
     const hours = Math.floor(sec_num / 3600);
@@ -25,6 +33,7 @@ const CountDown = (props) => {
       .filter((v, i) => v !== "00" || i > 0)
       .join(":");
   };
+
   return <div className="countdown-container">{toHHMMSS(count)}</div>;
 };
 

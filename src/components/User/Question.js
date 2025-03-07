@@ -1,16 +1,25 @@
 import _ from "lodash";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Lightbox from "react-awesome-lightbox";
 
 const Question = (props) => {
-  const { data, index } = props;
+  const { data, index, handleCheckbox, isQuizFinished } = props;
   const [isPreviewImage, setIsPreviewImage] = useState(false);
+
+  useEffect(() => {
+    console.log("isQuizFinished in Question:", isQuizFinished);
+  }, [isQuizFinished]);
+
   if (_.isEmpty(data)) {
     return <></>;
   }
-  const handleCheckbox = (event, aId, qId) => {
-    props.handleCheckbox(aId, qId);
+
+  const handleChangeCheckbox = (event, aId, qId) => {
+    if (!isQuizFinished) {
+      handleCheckbox(aId, qId);
+    }
   };
+
   return (
     <>
       {data.image ? (
@@ -25,7 +34,7 @@ const Question = (props) => {
               image={`data:image/jpeg;base64,${data.image}`}
               title={"Question Image"}
               onClose={() => setIsPreviewImage(false)}
-            ></Lightbox>
+            />
           )}
         </div>
       ) : (
@@ -38,23 +47,22 @@ const Question = (props) => {
       <div className="answer">
         {data.answers &&
           data.answers.length &&
-          data.answers.map((a, index) => {
-            return (
-              <div key={`answer-${index}`} className="answer-child">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    checked={a.isSelected}
-                    onChange={(event) =>
-                      handleCheckbox(event, a.id, +data.questionId)
-                    }
-                  />
-                  <label className="form-check-label">{a.description}</label>
-                </div>
+          data.answers.map((a, index) => (
+            <div key={`answer-${index}`} className="answer-child">
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={a.isSelected}
+                  onChange={(event) =>
+                    handleChangeCheckbox(event, a.id, +data.questionId)
+                  }
+                  disabled={isQuizFinished === true}
+                />
+                <label className="form-check-label">{a.description}</label>
               </div>
-            );
-          })}
+            </div>
+          ))}
       </div>
     </>
   );

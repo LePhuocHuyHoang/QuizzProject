@@ -1,14 +1,15 @@
 import CountDown from "./CountDown";
 import { find } from "lodash";
-import Question from "./../Question";
 import { useRef } from "react";
 
 const RightContent = (props) => {
+  const { dataQuizz, handleFinishQuizz, setIndex, isQuizFinished } = props;
   const refDiv = useRef([]);
-  const { dataQuizz } = props;
+
   const onTimeUp = () => {
-    props.handleFinishQUizz();
+    handleFinishQuizz();
   };
+
   const getClassQuestion = (index, question) => {
     if (question && question.answers.length > 0) {
       let isAnswered = question.answers.find((a) => a.isSelected === true);
@@ -18,8 +19,9 @@ const RightContent = (props) => {
     }
     return "question";
   };
+
   const handleClickQuestion = (index, question) => {
-    props.setIndex(index);
+    setIndex(index);
     if (refDiv.current) {
       refDiv.current.forEach((item) => {
         if (item && item.className === "question clicked") {
@@ -35,26 +37,25 @@ const RightContent = (props) => {
     }
     refDiv.current[index].className = "question clicked";
   };
+
   return (
     <>
       <div className="main-timer">
-        <CountDown onTimeUp={onTimeUp} />
+        <CountDown onTimeUp={onTimeUp} isQuizFinished={isQuizFinished} />
       </div>
       <div className="main-question">
         {dataQuizz &&
           dataQuizz.length > 0 &&
-          dataQuizz.map((item, index) => {
-            return (
-              <div
-                key={`question-abc-${index}`}
-                className={getClassQuestion(index, item)}
-                onClick={() => handleClickQuestion(index, item)}
-                ref={(element) => (refDiv.current[index] = element)}
-              >
-                {index + 1}
-              </div>
-            );
-          })}
+          dataQuizz.map((item, index) => (
+            <div
+              key={`question-abc-${index}`}
+              className={getClassQuestion(index, item)}
+              onClick={() => handleClickQuestion(index, item)}
+              ref={(element) => (refDiv.current[index] = element)}
+            >
+              {index + 1}
+            </div>
+          ))}
       </div>
     </>
   );

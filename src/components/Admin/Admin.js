@@ -37,45 +37,89 @@ const Admin = () => {
     }
   };
 
+  // Log để kiểm tra account.image
+  console.log("User account image:", account?.image);
+  console.log("Is base64:", account?.image?.startsWith("data:image"));
+
+  // Xử lý account.image thành nguồn ảnh hợp lệ
+  const imageSrc = account?.image?.startsWith("data:image")
+    ? account.image
+    : account?.image
+    ? `data:image/jpeg;base64,${account.image}` // Giả định là JPEG, điều chỉnh nếu cần
+    : null;
+
   return (
-    <div className="admin-container">
-      <div className="admin-sidebar">
-        <SideBar collapsed={collapsed} />
-      </div>
-      <div className="admin-content">
-        <div className="admin-header">
-          <span onClick={() => setCollapsed(!collapsed)}>
-            <FaBars className="left-side" />{" "}
-          </span>
-          <div className="right-side">
-            <div style={{ marginRight: "10px" }}>
-              <Language />
+    <>
+      <style>
+        {`
+          .custom-dropdown.no-arrow .dropdown-toggle::after {
+            display: none !important;
+          }
+          .custom-dropdown .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        `}
+      </style>
+      <div className="admin-container">
+        <div className="admin-sidebar">
+          <SideBar collapsed={collapsed} />
+        </div>
+        <div className="admin-content">
+          <div className="admin-header">
+            <span onClick={() => setCollapsed(!collapsed)}>
+              <FaBars className="left-side" />{" "}
+            </span>
+            <div className="right-side">
+              <div style={{ marginRight: "10px", marginTop: "8px" }}>
+                <Language />
+              </div>
+              {imageSrc && (
+                <NavDropdown
+                  title={
+                    <img
+                      src={imageSrc}
+                      alt="User Avatar"
+                      className="user-avatar"
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  }
+                  id="basic-nav-dropdown"
+                  className="custom-dropdown no-arrow" // Thêm no-arrow để ẩn mũi tên
+                  style={{ marginRight: "20px" }}
+                >
+                  <NavDropdown.Item onClick={() => setShowProfile(true)}>
+                    {t("admin.profile")}
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleLogOut}>
+                    {t("admin.logout")}
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
             </div>
-            <NavDropdown
-              title={t("admin.settings")}
-              id="basic-nav-dropdown"
-              className="custom-dropdown"
-              style={{ marginRight: "20px" }}
-            >
-              <NavDropdown.Item onClick={() => setShowProfile(true)}>
-                {t("admin.profile")}
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={handleLogOut}>
-                {t("admin.logout")}
-              </NavDropdown.Item>
-            </NavDropdown>
+          </div>
+
+          <div className="admin-main">
+            <PerfectScrollbar>
+              <Outlet />
+            </PerfectScrollbar>
           </div>
         </div>
-
-        <div className="admin-main">
-          <PerfectScrollbar>
-            <Outlet />
-          </PerfectScrollbar>
-        </div>
+        <Profile
+          show={showProfile}
+          setShow={setShowProfile}
+          account={account}
+        />
       </div>
-      <Profile show={showProfile} setShow={setShowProfile} account={account} />
-    </div>
+    </>
   );
 };
 
